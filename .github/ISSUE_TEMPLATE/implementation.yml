@@ -1,30 +1,30 @@
-name: Implementation work item
-description: Define one observable ClassHelper implementation outcome grounded in the Canonical documents.
+name: 구현 작업
+description: Canonical 문서에 근거한 관찰 가능한 ClassHelper 구현 결과 하나를 정의합니다.
 title: "[Implementation] "
 body:
   - type: markdown
     attributes:
       value: |
-        One Issue must describe one observable outcome or small vertical slice. Do not combine unrelated failure domains or silently expand scope.
+        하나의 Issue에는 관찰 가능한 결과 하나 또는 작은 vertical slice 하나만 작성하세요. 관련 없는 실패 영역을 결합하거나 범위를 암묵적으로 확장하지 마세요.
 
   - type: textarea
     id: goal
     attributes:
-      label: Goal
-      description: State the single observable outcome in one sentence.
-      placeholder: Persist and reject invalid READY to RECORDING transitions.
+      label: 목표
+      description: 관찰 가능한 단일 결과를 한 문장으로 작성하세요.
+      placeholder: 잘못된 READY에서 RECORDING으로의 전이를 거부하고 상태를 보존합니다.
     validations:
       required: true
 
   - type: textarea
     id: canonical_basis
     attributes:
-      label: Canonical Basis
-      description: Cite the exact Canonical sections and applicable acceptance criteria.
+      label: Canonical 근거
+      description: 정확한 Canonical 절과 적용되는 Acceptance Criteria를 인용하세요.
       placeholder: |
         - docs/02_Product_Requirements.md §..., AC-...
         - docs/03_Technical_Design.md §...
-        - docs/04_AI_Prompt_Specification.md §... (if applicable)
+        - docs/04_AI_Prompt_Specification.md §... (해당하는 경우)
         - docs/05_Codex_Development_Guide.md §...
     validations:
       required: true
@@ -32,48 +32,48 @@ body:
   - type: textarea
     id: starting_state
     attributes:
-      label: Starting State
-      description: Describe the initial fixture, persisted state, artifact, or user action.
+      label: 시작 상태
+      description: 초기 fixture, 저장 상태, artifact 또는 사용자 동작을 설명하세요.
     validations:
       required: true
 
   - type: textarea
     id: expected_result
     attributes:
-      label: Expected Result
-      description: Describe observable behavior, resulting state, and retained or deleted artifacts.
+      label: 기대 결과
+      description: 관찰 가능한 동작, 결과 상태, 보존하거나 삭제하는 artifact를 설명하세요.
     validations:
       required: true
 
   - type: textarea
     id: scope_in
     attributes:
-      label: Scope In
-      description: List only the permitted modules and behavior.
+      label: 포함 범위
+      description: 허용된 module과 동작만 나열하세요.
     validations:
       required: true
 
   - type: textarea
     id: scope_out
     attributes:
-      label: Scope Out
-      description: List explicitly excluded modules, behavior, cleanup, and future work.
+      label: 제외 범위
+      description: 명시적으로 제외한 module, 동작, cleanup과 향후 작업을 나열하세요.
     validations:
       required: true
 
   - type: textarea
     id: required_verification
     attributes:
-      label: Required Verification
-      description: List focused success/failure tests and any required integration, crash, UI, contract, or full-regression checks.
+      label: 필수 검증
+      description: 집중 성공/실패 test와 필요한 integration, crash, UI, contract 또는 전체 regression 검증을 나열하세요.
     validations:
       required: true
 
   - type: dropdown
     id: risk
     attributes:
-      label: Risk
-      description: Select Low, Medium, or High using docs/06. Unknown risk must be classified as High, and High risk requires explicit user approval before merge.
+      label: 위험도
+      description: docs/06에 따라 Low, Medium 또는 High를 선택하세요. 알 수 없는 위험은 High로 분류하며, High risk는 Merge 전에 사용자의 명시적 승인이 필요합니다.
       options:
         - Low
         - Medium
@@ -84,8 +84,8 @@ body:
   - type: dropdown
     id: auto_merge
     attributes:
-      label: Auto-merge eligibility
-      description: High-risk work must select No. Eligibility is provisional until every current-head gate passes.
+      label: Auto-merge 가능 여부
+      description: High-risk 작업은 No를 선택하세요. 모든 current-head gate를 통과하기 전까지 가능 여부는 잠정적입니다.
       options:
         - "No"
         - "Yes"
@@ -96,15 +96,15 @@ body:
   - type: textarea
     id: auto_merge_reason
     attributes:
-      label: Auto-merge reason
-      description: Give the policy-based reason for the selected eligibility.
+      label: Auto-merge 판단 이유
+      description: 선택한 가능 여부의 정책상 근거를 작성하세요.
     validations:
       required: true
 
   - type: textarea
     id: dependencies_blockers
     attributes:
-      label: Dependencies / Blockers
-      description: Link prerequisites, Issues, required authorization, or state None.
+      label: 의존성 / Blocker
+      description: 선행 조건, 관련 Issue, 필요한 승인을 연결하거나 없음을 명시하세요.
     validations:
       required: true

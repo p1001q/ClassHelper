@@ -289,6 +289,8 @@ If the work unit creates the first runnable project/test configuration and no te
 
 ### 10.2 Required completion report
 
+Completion and blocker reports shown to the user use Korean by default. Mechanical identifiers, commands, proper names, and structured status tokens may remain in English, but the prose explaining their reason and result is written in Korean. GitHub collaboration language is governed by `06_GitHub_Autonomous_Workflow.md §1.1`.
+
 Every implementation completion report uses these fields:
 
 ```markdown
