@@ -46,6 +46,7 @@ The activation record must identify:
 - default branch (`main`);
 - approved merge method;
 - required checks and review services;
+- repository-control profile: `PLATFORM_ENFORCED` or the Section 9.3 `PROCEDURAL_FALLBACK`;
 - whether Low-risk auto-merge is enabled;
 - whether Medium-risk auto-merge may be evaluated or is always held;
 - the stop-switch instruction.
@@ -454,6 +455,21 @@ Use only a repository-approved merge method. Squash merge is recommended so the 
 
 Never bypass branch protection or rulesets. If GitHub refuses a merge, diagnose the unmet policy rather than using administrator bypass or a different route.
 
+### 9.3 Limited procedural fallback for an unavailable protection feature
+
+`PLATFORM_ENFORCED` branch protection or a ruleset is the preferred repository-control profile. A `PROCEDURAL_FALLBACK` may be activated only when all of the following are true:
+
+- the repository is private, owned by the single ClassHelper user, and has no other human or automation actor authorized to push feature work directly to `main`;
+- GitHub's current repository API or settings UI explicitly reports that branch protection and rulesets are unavailable because of the repository plan or visibility, rather than because setup was skipped or access is insufficient;
+- the repository remains in the approved private visibility instead of being made public only to obtain a free protection feature;
+- the user explicitly authorizes this repository-scoped fallback and the activation record preserves the unavailable-feature evidence, approved squash-merge method, required CI, independent-review path, Low/Medium policy, and stop switch;
+- every change still uses an Issue branch and PR; direct work on or direct push to `main`, force push, hook bypass, administrator bypass, and unreviewed merge remain prohibited;
+- the exact current PR head passes every applicable Section 10 gate immediately before the merge command, and GitHub reports the PR `Ready`, mergeable without conflict, and based on the expected current `main` revision.
+
+This fallback is a procedural control, not branch protection. Reports and PRs must say `PROCEDURAL_FALLBACK`; they must not claim that `main` is protected or that GitHub blocks direct pushes. In this profile, "auto-merge" means that the authorized Agent performs the repository-approved squash merge only after rechecking every gate; it does not mean enabling a GitHub setting that is unavailable.
+
+The fallback never relaxes risk classification, current-head CI, independent review, clean-cycle requirements, High-risk user approval, or any prohibition in Section 2.3. It is unavailable for a fork, organization or multi-maintainer repository, an unknown permission failure, missing required checks/review, or any case where another actor may modify `main` without a reliable pre-merge base/head check. If GitHub later makes protection available for this repository, new autonomous cycles must pause until `PLATFORM_ENFORCED` controls are configured and the activation record is updated; the fallback must not be retained merely for convenience.
+
 ---
 
 ## 10. Auto-merge requirements
@@ -476,6 +492,7 @@ Every item must be true before auto-merge:
 - [ ] The cumulative review-fix count is recorded and does not exceed three cycles.
 - [ ] The diff contains no High-risk boundary, secret, protected user data, real lecture artifact, or generated build output.
 - [ ] The repository-approved merge method is used and no protection/ruleset is bypassed.
+- [ ] The activation record uses `PLATFORM_ENFORCED`, or every Section 9.3 `PROCEDURAL_FALLBACK` eligibility condition and immediate pre-merge base/head check is evidenced for this exact merge.
 - [ ] The audit record and PR Merge Decision are current for the exact head revision.
 
 If any item is false or unknown, auto-merge is prohibited. The PR remains open and the cycle moves to hold or stop-and-report.
@@ -508,7 +525,7 @@ In addition to every condition in `05 §12`, stop and report when:
 - unexpected user changes overlap the work;
 - a required credential is absent;
 - a live provider test or real external write lacks explicit authorization;
-- repository protection cannot be satisfied without bypass;
+- repository protection cannot be satisfied without bypass and the exact Section 9.3 procedural fallback is not already authorized and fully satisfied;
 - any P0 is discovered, including a Canonical conflict, data-loss risk, secret or real lecture-data exposure, another session's file overwrite, sole recovery source deletion, or damage to user-authored Notion content;
 - P1 remains after three review-fix correction cycles; after exhaustion, separate non-blocking P2 into a follow-up Issue and allow P3 to remain as Section 7.2 defines.
 
@@ -525,14 +542,15 @@ Git initialization itself remains a user-authorized action under `05`. Before Au
 - [ ] Choose private or public visibility knowingly; private is preferred when repository contents or development records could reveal sensitive context.
 - [ ] Set `main` as the default branch.
 - [ ] Enable GitHub Actions and Issues.
-- [ ] Enable repository auto-merge if Low-risk automation is desired.
-- [ ] Configure a ruleset or branch protection for `main`:
+- [ ] Enable repository auto-merge if Low-risk automation is desired and the selected repository-control profile supports that GitHub setting.
+- [ ] Select and record exactly one repository-control profile. Prefer `PLATFORM_ENFORCED` and configure a ruleset or branch protection for `main`:
   - PR required;
   - required CI/status checks;
   - required conversation resolution;
   - direct push blocked;
   - force push disabled;
   - branch deletion disabled.
+- [ ] Use `PROCEDURAL_FALLBACK` only when every Section 9.3 condition is evidenced and explicitly authorized. Record that GitHub does not enforce the controls, prohibit direct `main` work operationally, and require the Agent's exact-head/base/CI/review recheck before each eligible Low/Medium merge.
 - [ ] Install and authorize Codex for only the intended repository and required permissions.
 - [ ] Optionally install and authorize CodeRabbit.
 - [ ] Add GitHub Actions secrets only when a verified workflow needs them, using least privilege.
@@ -616,6 +634,7 @@ Each autonomous cycle leaves a concise, inspectable record containing:
 - cumulative review-fix cycles used and Medium clean-cycle count;
 - P0–P3 findings and dispositions;
 - initial and final risk classification;
+- repository-control profile and, for `PROCEDURAL_FALLBACK`, the unavailable-feature evidence plus immediate pre-merge base/head verification;
 - merge, hold, or stop decision with reason;
 - merged-branch deletion or preserved-branch state;
 - follow-up Issues and unresolved blockers.
@@ -755,6 +774,7 @@ This document cannot promote itself, alter `00`–`05`, or convert GitHub automa
 - It preserves the product, technical, AI, implementation, test, safety, and reporting rules in `00`–`05`.
 - It grants scoped GitHub write authority only while repository-scoped Autonomous GitHub Mode is active.
 - It leaves destructive Git, control bypass, secrets, Canonical auto-edits, and unauthorized external writes prohibited.
+- It prefers platform-enforced `main` protection and permits the single-owner private-repository procedural fallback only when the feature is demonstrably unavailable, explicitly authorized, accurately reported, and guarded by the unchanged current-head gates.
 - It uses `main` plus Issue branches, no `develop`, PR-only integration, and `Closes #N` linkage.
 - It limits each Issue and PR to one observable outcome.
 - It requires self-review, CI, independent review, bounded correction cycles, risk classification, and exact audit evidence.
