@@ -1,66 +1,68 @@
+# 연결된 Issue
+
 Closes #N
 
-> Do not include secrets, real lecture data, protected runtime paths, or unredacted user data in this PR.
+> 이 PR에 secret, 실제 강의 자료, 보호된 runtime 경로 또는 가리지 않은 사용자 데이터를 포함하지 마세요.
 
-# Goal
+# 목표
 
-<!-- One observable outcome; one PR normally resolves exactly one Issue. -->
+<!-- 관찰 가능한 단일 결과를 작성하세요. 하나의 PR은 일반적으로 정확히 하나의 Issue를 해결합니다. -->
 
-# Canonical Basis
+# Canonical 근거
 
 - `docs/02_Product_Requirements.md §...`, AC-...
 - `docs/03_Technical_Design.md §...`
-- `docs/04_AI_Prompt_Specification.md §...` (if applicable)
+- `docs/04_AI_Prompt_Specification.md §...` (해당하는 경우)
 - `docs/05_Codex_Development_Guide.md §...`
 
-# Changes
+# 변경 사항
 
-- <!-- Repository-relative file/module and behavior -->
+- <!-- Repository-relative file/module과 동작 -->
 
-# Failure Behavior
+# 실패 동작
 
-- <!-- Affected failure, retry, crash, retention, or cleanup behavior -->
+- <!-- 영향을 받는 실패, retry, crash, retention 또는 cleanup 동작 -->
 
-# Verification
+# 검증 결과
 
-- `<actual command>` — PASS | FAIL | NOT RUN | NOT AVAILABLE; <!-- material result or exact reason -->
+- `<실제로 실행한 명령>` — PASS | FAIL | NOT RUN | NOT AVAILABLE; <!-- 주요 결과 또는 정확한 이유 -->
 
-# Invariants
+# Invariant 확인
 
-- `<invariant>` — APPLIES/PASS | NOT APPLICABLE | BLOCKED; <!-- evidence or reason -->
+- `<invariant>` — APPLIES/PASS | NOT APPLICABLE | BLOCKED; <!-- 근거 또는 이유 -->
 
-# P0~P3 Review Findings
+# P0~P3 리뷰 결과
 
-- P0: none | <!-- finding and state -->
-- P1: none | <!-- finding and state -->
-- P2: none | <!-- finding, disposition, or follow-up Issue -->
-- P3: none | <!-- finding and disposition -->
+- P0: 없음 | <!-- finding과 상태 -->
+- P1: 없음 | <!-- finding과 상태 -->
+- P2: 없음 | <!-- finding, 처리 결과 또는 후속 Issue -->
+- P3: 없음 | <!-- finding과 처리 결과 -->
 
-# Current-Head Review Gates
+# 현재 Head 리뷰 Gate
 
-- Exact head revision: `<commit SHA>`
-- PR state: DRAFT | READY
-- Self-review: PASS | BLOCKED
-- Required CI/checks: PASS | FAIL | BLOCKED
-- PR evidence/body: COMPLETE | INCOMPLETE
-- Independent review: CodeRabbit | independent AI; PASS | BLOCKED
-- Required conversations: RESOLVED | UNRESOLVED
-- Clean review cycles: 0 | 1 | 2
-- Review-fix cycles used: 0 | 1 | 2 | 3
+- 정확한 head revision: `<commit SHA>`
+- PR 상태: DRAFT | READY
+- 자체 리뷰: PASS | BLOCKED
+- 필수 CI/check: PASS | FAIL | BLOCKED
+- PR 근거/본문: COMPLETE | INCOMPLETE
+- 독립 리뷰: CodeRabbit | independent AI; PASS | BLOCKED
+- 필수 대화: RESOLVED | UNRESOLVED
+- Clean review cycle: 0 | 1 | 2
+- 사용한 review-fix cycle: 0 | 1 | 2 | 3
 
-# Risk
+# 위험도
 
 Low | Medium | High
 
-<!-- Classification evidence and affected boundaries. Unknown risk is High. -->
+<!-- 분류 근거와 영향을 받는 경계를 작성하세요. 알 수 없는 위험은 High입니다. -->
 
-# Merge Decision
+# Merge 판단
 
 Auto-merge eligible | Hold for user approval | Blocked
 
-<!-- Unresolved P0/P1 findings and failing required checks block merge. High risk cannot merge without explicit user approval. -->
+<!-- 미해결 P0/P1 finding과 실패한 필수 check는 Merge를 차단합니다. High risk는 사용자의 명시적 승인 없이 Merge할 수 없습니다. -->
 
-# Unresolved Issues
+# 미해결 사항
 
-- None
-  <!-- or list the specific blocker, risk, or linked follow-up Issue -->
+- 없음
+  <!-- 또는 구체적인 blocker, risk, 연결된 후속 Issue를 나열하세요. -->

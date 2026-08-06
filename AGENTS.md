@@ -12,6 +12,8 @@ Read the Canonical documents in this order before implementation work:
 
 Use the document that owns the disputed topic. If a real Canonical conflict remains, stop and report the exact sections; do not choose an interpretation or edit a Canonical document. Follow all implementation, verification, Git-safety, path-redaction, stop-and-report, and completion-report rules in `05`. Follow `06` only when its repository-scoped Autonomous GitHub Mode is explicitly active; otherwise the default restrictions in `05` apply.
 
+GitHub에서 사람이 읽는 협업 문구와 사용자에게 표시하는 완료·blocker 보고는 `06 §1.1`에 따라 한국어를 기본으로 작성하세요. Branch/Commit/PR의 기계적 식별자, 코드 이름, 명령, 고유명사와 정형 상태 토큰은 영문을 유지할 수 있지만, 그 이유와 결과 설명은 한국어로 작성하세요.
+
 Never add secrets, credentials, real lecture audio, transcripts, generated user learning notes, Recovery artifacts, runtime databases, or diagnostics containing lecture data to Git. Tests may use only synthetic data or explicitly approved redacted fixtures. Use repository-relative paths in reports and redact protected runtime absolute paths as required by `05`.
 
 Do not modify or promote Canonical documents automatically. Verify version-sensitive API behavior against current primary documentation. This repository bootstrap does not authorize ClassHelper feature implementation; later feature work requires its own explicitly scoped work item.

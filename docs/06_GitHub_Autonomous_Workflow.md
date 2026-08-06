@@ -23,6 +23,14 @@ When **Autonomous GitHub Mode** is inactive, every default restriction in `05` a
 
 Canonical documents are read-only during implementation. A Canonical change is always a separate, user-approved documentation task and is High risk under this document.
 
+### 1.1 Collaboration language
+
+Korean is the default language for human-readable GitHub collaboration prose. This applies to the human-readable meaning in Issue titles, Issue bodies and field guidance, Commit summaries, the human-readable meaning in PR titles, PR bodies and section descriptions, Review comments, review-fix responses, completion and blocker reports, and user-facing automation work descriptions.
+
+Mechanical identifiers and fixed development tokens may remain in English or must remain in English when required by their contract. This includes branch prefixes and slugs, Commit types, PR title category tags, GitHub labels, code identifiers, Swift type/function/property names, file and directory names, terminal commands, API/framework/library proper names, Canonical states and enum values, Issue and PR numbers, and structured tokens such as `Draft`, `PASS`, `FAIL`, `NOT RUN`, `P0`–`P3`, `Low`, `Medium`, and `High`.
+
+When a structured English token is used, the prose explaining its reason, evidence, result, or next action must still be written in Korean. This policy does not require translation of source code, mechanical identifiers, or existing Canonical explanatory prose.
+
 ---
 
 ## 2. Autonomous GitHub Mode
@@ -154,51 +162,51 @@ Every implementation Issue must cite the exact Canonical section(s) and acceptan
 Representative titles:
 
 ```text
-[Scaffold] Create macOS project
-[Domain] Implement session state axes
-[Fix] Prevent canonical note clobbering
+[Scaffold] macOS project 생성
+[Domain] 세션 상태 축 구현
+[Fix] Canonical note 덮어쓰기 방지
 ```
 
 ### 4.2 Representative Issue template
 
 ```markdown
-# Goal
-<one observable outcome>
+# 목표
+<관찰 가능한 단일 결과>
 
-# Canonical Basis
+# Canonical 근거
 - `02_Product_Requirements.md §...`, AC-...
 - `03_Technical_Design.md §...`
-- `04_AI_Prompt_Specification.md §...` (if applicable)
+- `04_AI_Prompt_Specification.md §...` (해당하는 경우)
 - `05_Codex_Development_Guide.md §...`
 
-# Starting State
-<fixture, persisted state, artifact, or user action>
+# 시작 상태
+<fixture, 저장 상태, artifact 또는 사용자 동작>
 
-# Expected Result
-<observable behavior, terminal/intermediate state, and retained/deleted artifacts>
+# 기대 결과
+<관찰 가능한 동작, 최종/중간 상태, 보존/삭제되는 artifact>
 
-# Scope
-## In
-- <permitted module or behavior>
+# 범위
+## 포함
+- <허용된 module 또는 동작>
 
-## Out
-- <explicitly excluded module or behavior>
+## 제외
+- <명시적으로 제외된 module 또는 동작>
 
-# Required Verification
-- <focused success/failure tests>
-- <integration, crash, UI, contract, or full-regression requirements>
+# 필수 검증
+- <집중 성공/실패 test>
+- <integration, crash, UI, contract 또는 전체 regression 요구사항>
 
-# Risk
+# 위험도
 Low | Medium | High
 
-<classification evidence and affected boundaries>
+<분류 근거와 영향을 받는 경계>
 
-# Automation
+# 자동화
 Auto-merge: Yes | No | Evaluate after review
-Reason: <policy-based reason>
+이유: <정책에 근거한 이유>
 
-# Dependencies / Blockers
-- <Issue, prerequisite, authorization, or none>
+# 의존성 / Blocker
+- <Issue, 선행 조건, 승인 또는 없음>
 ```
 
 For High risk, `Auto-merge: No` is mandatory. Unknown risk is recorded as High until resolved.
@@ -210,13 +218,13 @@ For High risk, `Auto-merge: No` is mandatory. Unknown risk is recorded as High u
 Format:
 
 ```text
-<type>: <imperative summary> (#<issue-number>)
+<type>: <한국어 요약> (#<issue-number>)
 ```
 
 Rules:
 
-- write in English;
-- use imperative present tense;
+- keep the Commit type in English and write the human-readable summary in Korean;
+- describe the completed outcome concisely;
 - keep the subject concise and omit the final period;
 - supported types are `feat`, `fix`, `docs`, `refactor`, `test`, and `chore`;
 - do not use `style`;
@@ -228,11 +236,11 @@ Rules:
 Examples:
 
 ```text
-chore: create macOS project scaffold (#1)
-feat: add session state axes (#10)
-fix: prevent cross-session note overwrite (#23)
-test: cover transcript retry crash boundaries (#31)
-docs: clarify autonomous merge gates (#42)
+chore: macOS project scaffold 생성 (#1)
+feat: 세션 상태 축 추가 (#10)
+fix: 다른 세션의 note 덮어쓰기 방지 (#23)
+test: transcript 재시도 crash 경계 검증 추가 (#31)
+docs: 자동 Merge gate 명확화 (#42)
 ```
 
 The AI should make meaningful checkpoint commits that preserve understandable progress and enable review. It must avoid noisy micro-commits, repeated fixup/squash spam, and artificial commits created only to appear active. Repository-approved squash merge may combine branch history at merge time while preserving the Issue and PR audit trail.
@@ -246,12 +254,12 @@ The AI should make meaningful checkpoint commits that preserve understandable pr
 Use the category matching the primary outcome:
 
 ```text
-[Feature] Add session state axes
-[Fix] Prevent canonical note clobbering
-[Test] Cover transcript crash recovery
-[Docs] Clarify GitHub workflow
-[Chore] Create macOS project scaffold
-[Refactor] Isolate retry classification
+[Feature] 세션 상태 축 추가
+[Fix] Canonical note 덮어쓰기 방지
+[Test] transcript crash 복구 검증
+[Docs] GitHub workflow 명확화
+[Chore] macOS project scaffold 생성
+[Refactor] 재시도 분류 격리
 ```
 
 ### 6.2 Scope and draft policy
@@ -274,62 +282,64 @@ After those prerequisites are complete for the current exact head, mark the PR R
 ### 6.3 Representative PR template
 
 ```markdown
+# 연결된 Issue
+
 Closes #<N>
 
-# Goal
-<one observable outcome>
+# 목표
+<관찰 가능한 단일 결과>
 
-# Canonical Basis
+# Canonical 근거
 - `02_Product_Requirements.md §...`, AC-...
 - `03_Technical_Design.md §...`
-- `04_AI_Prompt_Specification.md §...` (if applicable)
+- `04_AI_Prompt_Specification.md §...` (해당하는 경우)
 - `05_Codex_Development_Guide.md §...`
 
-# Changes
-- <repository-relative file/module and behavior>
+# 변경 사항
+- <repository-relative file/module과 동작>
 
-# Failure Behavior
-- <how affected failures, retry, crash, or cleanup behave>
+# 실패 동작
+- <영향받는 실패, retry, crash 또는 cleanup 동작>
 
-# Verification
-- `<actual verified command>` — PASS/FAIL/NOT AVAILABLE/NOT RUN; <summary/reason>
+# 검증 결과
+- `<실제로 검증한 명령>` — PASS/FAIL/NOT AVAILABLE/NOT RUN; <결과 요약/이유>
 
-# Invariants
+# Invariant 확인
 - <invariant> — APPLIES/PASS
-- <invariant> — NOT APPLICABLE; <reason>
-- <invariant> — BLOCKED; <reason>
+- <invariant> — NOT APPLICABLE; <이유>
+- <invariant> — BLOCKED; <이유>
 
-# Review Findings
-- P0: none | <finding and state>
-- P1: none | <finding and state>
-- P2: none | <finding, disposition, or follow-up Issue>
-- P3: none | <finding and disposition>
+# P0~P3 리뷰 결과
+- P0: 없음 | <finding과 상태>
+- P1: 없음 | <finding과 상태>
+- P2: 없음 | <finding, 처리 결과 또는 후속 Issue>
+- P3: 없음 | <finding과 처리 결과>
 
-# Current-Head Review Gates
-- Exact head revision: `<commit SHA>`
-- PR state: DRAFT | READY
-- Self-review: PASS | BLOCKED
-- Required CI/checks: PASS | FAIL | BLOCKED
-- PR evidence/body: COMPLETE | INCOMPLETE
-- Independent review: CodeRabbit | independent AI; PASS | BLOCKED
-- Required conversations: RESOLVED | UNRESOLVED
-- Clean review cycles: 0 | 1 | 2
-- Review-fix cycles used: 0 | 1 | 2 | 3
+# 현재 Head 리뷰 Gate
+- 정확한 head revision: `<commit SHA>`
+- PR 상태: DRAFT | READY
+- 자체 리뷰: PASS | BLOCKED
+- 필수 CI/check: PASS | FAIL | BLOCKED
+- PR 근거/본문: COMPLETE | INCOMPLETE
+- 독립 리뷰: CodeRabbit | independent AI; PASS | BLOCKED
+- 필수 대화: RESOLVED | UNRESOLVED
+- Clean review cycle: 0 | 1 | 2
+- 사용한 review-fix cycle: 0 | 1 | 2 | 3
 
-# Risk
+# 위험도
 Low | Medium | High
 
-<classification evidence>
+<분류 근거>
 
-# Merge Decision
+# Merge 판단
 Auto-merge eligible | Hold for user approval | Blocked
 
-<decision evidence>
+<판단 근거>
 
-# Unresolved Issues
-- None
-  or
-- <specific blocker/risk>
+# 미해결 사항
+- 없음
+  또는
+- <구체적인 blocker/risk>
 ```
 
 The PR body must contain actual commands and statuses, never guessed commands or unsupported PASS claims. Repository-relative code/configuration paths are permitted; protected paths and user data must be redacted according to `05`.
@@ -361,13 +371,13 @@ Review tools are advisory and lower priority than `00`–`06`, `AGENTS.md`, and 
 Representative comments:
 
 ```text
-P0 — This replacement path can overwrite a different session's canonical note. Stop and preserve both files; see 02 §6.5 and 03 canonical-save invariants.
+P0 — 이 교체 경로는 다른 세션의 canonical note를 덮어쓸 수 있습니다. 두 파일을 모두 보존하고 중단하세요. 근거는 02 §6.5와 03 canonical-save invariant입니다.
 
-P1 — A retry can persist LOCAL_COMPLETE before read-back verification. Move the state transition after verification and add the crash-boundary test required by the Issue.
+P1 — 재시도 중 read-back verification 전에 LOCAL_COMPLETE가 저장될 수 있습니다. 상태 전이를 검증 뒤로 옮기고 Issue가 요구한 crash-boundary test를 추가하세요.
 
-P2 — Retry classification is duplicated in two adapters. Consolidate it if the change remains local; otherwise open a follow-up Issue rather than expanding this PR.
+P2 — 재시도 분류가 두 adapter에 중복되어 있습니다. 변경이 국소적이면 통합하고, 그렇지 않으면 이 PR의 범위를 넓히지 말고 후속 Issue를 생성하세요.
 
-P3 — Consider renaming `resultData` to reflect that it contains a validated transcript.
+P3 — `resultData`가 검증된 transcript를 담는다는 의미가 드러나도록 이름 변경을 고려하세요.
 ```
 
 Every P0 immediately stops the cycle under `05 §12`, regardless of when it is found. P0 must not enter an automatic correction loop or merge evaluation. P0 and High risk are not synonyms: every P0 is an immediate stop condition, while a High-risk change that is not P0 may proceed through PR and review but must wait for explicit user merge approval.
@@ -591,6 +601,8 @@ Workflow artifacts use the GitHub naming rules in this document; source code fol
 ---
 
 ## 16. Reporting and audit trail
+
+Human-readable explanations in the records below follow the Korean-default policy in Section 1.1. Structured status tokens, identifiers, commands, and proper names may remain in English, but their reasons and outcomes are recorded in Korean.
 
 Each autonomous cycle leaves a concise, inspectable record containing:
 
