@@ -9,10 +9,14 @@ nonisolated enum RecordingTransitionPolicy {
         command: SessionCommand
     ) throws -> RecordingState {
         switch (state, command) {
-        case (.ready, .start):
+        case (.ready, .start), (.blocked, .start):
             return .starting
         case (.starting, .startCommitted):
             return .recording
+        case (.starting, .startFailed):
+            return .ready
+        case (.starting, .startBlocked):
+            return .blocked
         case (.recording, .pause):
             return .paused
         case (.paused, .resume):

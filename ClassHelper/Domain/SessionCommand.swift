@@ -3,9 +3,11 @@
 //  ClassHelper
 //
 
-nonisolated enum SessionCommand: Sendable {
+nonisolated enum SessionCommand: CaseIterable, Sendable {
     case start
     case startCommitted
+    case startFailed
+    case startBlocked
     case pause
     case resume
     case stop
