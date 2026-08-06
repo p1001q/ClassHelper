@@ -1,0 +1,49 @@
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Xcode user-specific state
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+*.moved-aside
+
+# Local build products and caches
+DerivedData/
+build/
+.build/
+.swiftpm/
+
+# Local credentials and machine-only configuration
+.env
+.env.*
+!.env.example
+Secrets.xcconfig
+*.xcconfig.local
+credentials.json
+secrets.json
+*.pem
+*.key
+
+# ClassHelper runtime data accidentally placed below the repository root
+/.classhelper-runtime/
+/ClassHelperRuntime/
+/Recovery/
+/Diagnostics/
+/output/
+/recordings/
+/transcripts/
+/classhelper.sqlite
+/classhelper.sqlite-wal
+/classhelper.sqlite-shm
+/audio.caf
+/transcript.json
+/note-draft.json
+
+# Canonical learning-note output layout under any selected output root
+**/notes/[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]/
+
+# Synthetic or explicitly approved redacted fixtures remain trackable.
+!ClassHelperTests/Fixtures/**
+!ClassHelperUITests/Fixtures/**

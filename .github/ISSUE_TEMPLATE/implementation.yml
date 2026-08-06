@@ -1,0 +1,110 @@
+name: Implementation work item
+description: Define one observable ClassHelper implementation outcome grounded in the Canonical documents.
+title: "[Implementation] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One Issue must describe one observable outcome or small vertical slice. Do not combine unrelated failure domains or silently expand scope.
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: State the single observable outcome in one sentence.
+      placeholder: Persist and reject invalid READY to RECORDING transitions.
+    validations:
+      required: true
+
+  - type: textarea
+    id: canonical_basis
+    attributes:
+      label: Canonical Basis
+      description: Cite the exact Canonical sections and applicable acceptance criteria.
+      placeholder: |
+        - docs/02_Product_Requirements.md §..., AC-...
+        - docs/03_Technical_Design.md §...
+        - docs/04_AI_Prompt_Specification.md §... (if applicable)
+        - docs/05_Codex_Development_Guide.md §...
+    validations:
+      required: true
+
+  - type: textarea
+    id: starting_state
+    attributes:
+      label: Starting State
+      description: Describe the initial fixture, persisted state, artifact, or user action.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_result
+    attributes:
+      label: Expected Result
+      description: Describe observable behavior, resulting state, and retained or deleted artifacts.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope_in
+    attributes:
+      label: Scope In
+      description: List only the permitted modules and behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope_out
+    attributes:
+      label: Scope Out
+      description: List explicitly excluded modules, behavior, cleanup, and future work.
+    validations:
+      required: true
+
+  - type: textarea
+    id: required_verification
+    attributes:
+      label: Required Verification
+      description: List focused success/failure tests and any required integration, crash, UI, contract, or full-regression checks.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk
+      description: Select Low, Medium, or High using docs/06. Unknown risk must be classified as High, and High risk requires explicit user approval before merge.
+      options:
+        - Low
+        - Medium
+        - High
+    validations:
+      required: true
+
+  - type: dropdown
+    id: auto_merge
+    attributes:
+      label: Auto-merge eligibility
+      description: High-risk work must select No. Eligibility is provisional until every current-head gate passes.
+      options:
+        - "No"
+        - "Yes"
+        - Evaluate after review
+    validations:
+      required: true
+
+  - type: textarea
+    id: auto_merge_reason
+    attributes:
+      label: Auto-merge reason
+      description: Give the policy-based reason for the selected eligibility.
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies_blockers
+    attributes:
+      label: Dependencies / Blockers
+      description: Link prerequisites, Issues, required authorization, or state None.
+    validations:
+      required: true

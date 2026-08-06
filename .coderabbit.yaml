@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: ko-KR
+tone_instructions: "간결하고 구체적으로 작성하며, 추측성 리팩터링이나 범위 확대를 제안하지 마세요."
+early_access: false
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  changed_files_summary: true
+  sequence_diagrams: false
+  assess_linked_issues: true
+  auto_apply_labels: false
+  auto_assign_reviewers: false
+  poem: false
+  review_status: true
+  path_instructions:
+    - path: "**/*"
+      instructions: |
+        AGENTS.md와 docs/00_Project_Overview.md부터 docs/06_GitHub_Autonomous_Workflow.md까지를 권한 순서대로 우선 적용하고, 연결된 Issue의 정확한 범위를 검토 기준으로 사용하세요. 각 finding은 P0~P3 심각도, 문제 원인, 실제 위험, 최소 범위의 수정 방향을 제시하세요. Canonical 충돌, secret·실제 강의 자료 노출, 데이터 손실 가능성은 즉시 명확히 표시하세요. Canonical 문서나 범위를 임의로 재해석하거나 확장하지 마세요. CodeRabbit은 보조 리뷰어이며 최종 권위나 유일한 Merge 결정자가 아닙니다.
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    auto_pause_after_reviewed_commits: 0
+    drafts: false
+
+chat:
+  auto_reply: false
+
+knowledge_base:
+  web_search:
+    enabled: true
+  code_guidelines:
+    enabled: true
+    filePatterns: []
