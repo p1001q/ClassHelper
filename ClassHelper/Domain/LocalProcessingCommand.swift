@@ -9,7 +9,7 @@ nonisolated enum LocalProcessingCommand: CaseIterable, Sendable {
     case generatedNoteVerified
     case canonicalNoteReadBackVerified
     case recoverableFailureVerified
-    case unrecoverableFailureVerified
+    case unrecoverableFailureCleanupCompletedAndVerified
     case retryFromUsableAudio
     case retryFromVerifiedTranscript
     case retryFromValidGeneratedNote

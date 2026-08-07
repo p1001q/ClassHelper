@@ -33,16 +33,16 @@ nonisolated enum LocalProcessingTransitionPolicy {
             return .recoverableFailed
         case (
             .capturing,
-            .unrecoverableFailureVerified
+            .unrecoverableFailureCleanupCompletedAndVerified
         ), (
             .finalizingTranscript,
-            .unrecoverableFailureVerified
+            .unrecoverableFailureCleanupCompletedAndVerified
         ), (
             .generatingNote,
-            .unrecoverableFailureVerified
+            .unrecoverableFailureCleanupCompletedAndVerified
         ), (
             .savingLocal,
-            .unrecoverableFailureVerified
+            .unrecoverableFailureCleanupCompletedAndVerified
         ):
             return .unrecoverableFailed
         case (.recoverableFailed, .retryFromUsableAudio):

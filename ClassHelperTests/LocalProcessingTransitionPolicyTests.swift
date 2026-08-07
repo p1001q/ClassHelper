@@ -20,10 +20,10 @@ struct LocalProcessingTransitionPolicyTests {
         (.finalizingTranscript, .recoverableFailureVerified, .recoverableFailed),
         (.generatingNote, .recoverableFailureVerified, .recoverableFailed),
         (.savingLocal, .recoverableFailureVerified, .recoverableFailed),
-        (.capturing, .unrecoverableFailureVerified, .unrecoverableFailed),
-        (.finalizingTranscript, .unrecoverableFailureVerified, .unrecoverableFailed),
-        (.generatingNote, .unrecoverableFailureVerified, .unrecoverableFailed),
-        (.savingLocal, .unrecoverableFailureVerified, .unrecoverableFailed),
+        (.capturing, .unrecoverableFailureCleanupCompletedAndVerified, .unrecoverableFailed),
+        (.finalizingTranscript, .unrecoverableFailureCleanupCompletedAndVerified, .unrecoverableFailed),
+        (.generatingNote, .unrecoverableFailureCleanupCompletedAndVerified, .unrecoverableFailed),
+        (.savingLocal, .unrecoverableFailureCleanupCompletedAndVerified, .unrecoverableFailed),
         (.recoverableFailed, .retryFromUsableAudio, .finalizingTranscript),
         (.recoverableFailed, .retryFromVerifiedTranscript, .generatingNote),
         (.recoverableFailed, .retryFromValidGeneratedNote, .savingLocal),
@@ -69,6 +69,16 @@ struct LocalProcessingTransitionPolicyTests {
         )
 
         #expect(failedState == .recoverableFailed)
+    }
+
+    @Test("unrecoverable terminal 전이는 외부 cleanup 완료와 부재 검증 결과만 수락")
+    func unrecoverableTransitionRequiresVerifiedCleanupResult() throws {
+        let state = try LocalProcessingTransitionPolicy.transition(
+            from: .savingLocal,
+            command: .unrecoverableFailureCleanupCompletedAndVerified
+        )
+
+        #expect(state == .unrecoverableFailed)
     }
 
     @Test("retry API에는 attempt count 입력이 없고 verified artifact command만 사용한다")
