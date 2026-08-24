@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000003 /* GRDB */; };
+		A10000000000000000000002 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000003 /* GRDB */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		9568A3DA302445C6008C57CA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10000000000000000000001 /* GRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10000000000000000000002 /* GRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +119,7 @@
 			);
 			name = ClassHelper;
 			packageProductDependencies = (
+				A10000000000000000000003 /* GRDB */,
 			);
 			productName = ClassHelper;
 			productReference = 9568A3CC302445C5008C57CA /* ClassHelper.app */;
@@ -135,6 +143,7 @@
 			);
 			name = ClassHelperTests;
 			packageProductDependencies = (
+				A10000000000000000000003 /* GRDB */,
 			);
 			productName = ClassHelperTests;
 			productReference = 9568A3D9302445C6008C57CA /* ClassHelperTests.xctest */;
@@ -197,6 +206,9 @@
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9568A3CD302445C5008C57CA /* Products */;
+			packageReferences = (
+				A10000000000000000000004 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -524,6 +536,25 @@
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A10000000000000000000004 /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 7.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A10000000000000000000003 /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A10000000000000000000004 /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCConfigurationList section */
 		9568A3C7302445C5008C57CA /* Build configuration list for PBXProject "ClassHelper" */ = {
