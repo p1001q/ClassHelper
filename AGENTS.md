@@ -14,4 +14,10 @@ Use the document that owns the disputed topic. If a real Canonical conflict rema
 
 Never add secrets, credentials, real lecture audio, transcripts, generated user learning notes, Recovery artifacts, runtime databases, or diagnostics containing lecture data to Git. Tests may use only synthetic data or explicitly approved redacted fixtures. Use repository-relative paths in reports and redact protected runtime absolute paths as required by `05`.
 
+## GitHub CLI authentication troubleshooting
+
+When the user terminal reports a successful `gh auth status` but a sandboxed Codex command reports an invalid token, do not immediately ask the user to authenticate again. First rerun the same read-only authentication or repository-access check with host macOS keyring access through the normal permission-escalation path. A sandbox may be unable to read credentials that the user's terminal correctly stored in the keyring.
+
+If diagnosis requires checking `GH_TOKEN` or `GITHUB_TOKEN`, report only whether each variable is set. Never print, expand, log, or otherwise expose its value. Request a new `gh auth login` only after the host-keyring check also fails.
+
 Do not modify or promote Canonical documents automatically. Verify version-sensitive API behavior against current primary documentation. This repository bootstrap does not authorize ClassHelper feature implementation; later feature work requires its own explicitly scoped work item.

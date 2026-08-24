@@ -18,8 +18,8 @@ nonisolated struct SessionRecord: Codable, FetchableRecord, PersistableRecord, E
     let lectureLocalDay: Int
     let lectureLocalHour: Int
     let lectureLocalMinute: Int
-    let recordingState: String
-    let localProcessingState: String
+    var recordingState: String
+    var localProcessingState: String
     let publicationState: String
     let lastVerifiedStage: String?
     let canonicalPath: String?
@@ -30,7 +30,7 @@ nonisolated struct SessionRecord: Codable, FetchableRecord, PersistableRecord, E
     let attemptCount: Int?
     let lastAttemptedAt: String?
     let createdAt: String
-    let updatedAt: String
+    var updatedAt: String
 
     enum CodingKeys: String, CodingKey {
         case sessionID = "session_id"
@@ -124,17 +124,78 @@ nonisolated struct SessionRecord: Codable, FetchableRecord, PersistableRecord, E
         return session
     }
 
-    private static func encode(_ date: Date) -> String {
-        formatter().string(from: date)
+    func snapshot() throws -> SessionSnapshot {
+        let lectureSession = try lectureSession()
+        guard let recordingState = RecordingState(rawValue: recordingState) else {
+            throw PersistenceError.invalidPersistedRecordingState
+        }
+        guard let localProcessingState = LocalProcessingState(rawValue: localProcessingState) else {
+            throw PersistenceError.invalidPersistedLocalProcessingState
+        }
+        guard let publicationState = PublicationState(rawValue: publicationState) else {
+            throw PersistenceError.invalidPersistedPublicationState
+        }
+        guard
+            let createdAt = Self.decode(createdAt),
+            let updatedAt = Self.decode(updatedAt)
+        else {
+            throw PersistenceError.invalidPersistedTimestamp
+        }
+
+        let lastAttemptedAt: Date?
+        if let value = self.lastAttemptedAt {
+            guard let decoded = Self.decode(value) else {
+                throw PersistenceError.invalidPersistedTimestamp
+            }
+            lastAttemptedAt = decoded
+        } else {
+            lastAttemptedAt = nil
+        }
+
+        return SessionSnapshot(
+            lectureSession: lectureSession,
+            recordingState: recordingState,
+            localProcessingState: localProcessingState,
+            publicationState: publicationState,
+            lastVerifiedStage: lastVerifiedStage,
+            canonicalPath: canonicalPath,
+            title: title,
+            failureCategory: failureCategory,
+            failureCode: failureCode,
+            discardRequested: discardRequested,
+            attemptCount: attemptCount,
+            lastAttemptedAt: lastAttemptedAt,
+            createdAt: createdAt,
+            updatedAt: updatedAt
+        )
     }
 
-    private static func decode(_ value: String) -> Date? {
-        formatter().date(from: value)
+    static func encode(_ date: Date) -> String {
+        var wholeSeconds = floor(date.timeIntervalSince1970)
+        var fractionalNanoseconds = Int(
+            ((date.timeIntervalSince1970 - wholeSeconds) * 1_000_000_000).rounded()
+        )
+        if fractionalNanoseconds == 1_000_000_000 {
+            wholeSeconds += 1
+            fractionalNanoseconds = 0
+        }
+
+        let wholeSecond = Date(timeIntervalSince1970: wholeSeconds)
+        let base = wholeSecondFormatter().string(from: wholeSecond)
+        return String(base.dropLast())
+            + String(format: ".%09dZ", fractionalNanoseconds)
     }
 
-    private static func formatter() -> ISO8601DateFormatter {
+    static func decode(_ value: String) -> Date? {
+        try? Date(
+            value,
+            strategy: Date.ISO8601FormatStyle(includingFractionalSeconds: true)
+        )
+    }
+
+    private static func wholeSecondFormatter() -> ISO8601DateFormatter {
         let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        formatter.formatOptions = [.withInternetDateTime]
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         return formatter
     }
