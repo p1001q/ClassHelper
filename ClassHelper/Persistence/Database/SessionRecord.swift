@@ -18,8 +18,8 @@ nonisolated struct SessionRecord: Codable, FetchableRecord, PersistableRecord, E
     let lectureLocalDay: Int
     let lectureLocalHour: Int
     let lectureLocalMinute: Int
-    let recordingState: String
-    let localProcessingState: String
+    var recordingState: String
+    var localProcessingState: String
     let publicationState: String
     let lastVerifiedStage: String?
     let canonicalPath: String?
@@ -30,7 +30,7 @@ nonisolated struct SessionRecord: Codable, FetchableRecord, PersistableRecord, E
     let attemptCount: Int?
     let lastAttemptedAt: String?
     let createdAt: String
-    let updatedAt: String
+    var updatedAt: String
 
     enum CodingKeys: String, CodingKey {
         case sessionID = "session_id"
@@ -124,11 +124,57 @@ nonisolated struct SessionRecord: Codable, FetchableRecord, PersistableRecord, E
         return session
     }
 
-    private static func encode(_ date: Date) -> String {
+    func snapshot() throws -> SessionSnapshot {
+        let lectureSession = try lectureSession()
+        guard let recordingState = RecordingState(rawValue: recordingState) else {
+            throw PersistenceError.invalidPersistedRecordingState
+        }
+        guard let localProcessingState = LocalProcessingState(rawValue: localProcessingState) else {
+            throw PersistenceError.invalidPersistedLocalProcessingState
+        }
+        guard let publicationState = PublicationState(rawValue: publicationState) else {
+            throw PersistenceError.invalidPersistedPublicationState
+        }
+        guard
+            let createdAt = Self.decode(createdAt),
+            let updatedAt = Self.decode(updatedAt)
+        else {
+            throw PersistenceError.invalidPersistedTimestamp
+        }
+
+        let lastAttemptedAt: Date?
+        if let value = self.lastAttemptedAt {
+            guard let decoded = Self.decode(value) else {
+                throw PersistenceError.invalidPersistedTimestamp
+            }
+            lastAttemptedAt = decoded
+        } else {
+            lastAttemptedAt = nil
+        }
+
+        return SessionSnapshot(
+            lectureSession: lectureSession,
+            recordingState: recordingState,
+            localProcessingState: localProcessingState,
+            publicationState: publicationState,
+            lastVerifiedStage: lastVerifiedStage,
+            canonicalPath: canonicalPath,
+            title: title,
+            failureCategory: failureCategory,
+            failureCode: failureCode,
+            discardRequested: discardRequested,
+            attemptCount: attemptCount,
+            lastAttemptedAt: lastAttemptedAt,
+            createdAt: createdAt,
+            updatedAt: updatedAt
+        )
+    }
+
+    static func encode(_ date: Date) -> String {
         formatter().string(from: date)
     }
 
-    private static func decode(_ value: String) -> Date? {
+    static func decode(_ value: String) -> Date? {
         formatter().date(from: value)
     }
 
