@@ -47,6 +47,26 @@ struct SessionRepositoryTests {
         #expect(try rowCount(in: context.database) == 1)
     }
 
+    @Test("sub-millisecond lecture/time metadata를 exact round-trip 한다")
+    func subMillisecondTimestampsRoundTripExactly() async throws {
+        let preciseStartedAt = Date(timeIntervalSince1970: 1_785_947_400.123456)
+        let preciseCreatedAt = Date(timeIntervalSince1970: 1_786_100_000.654321)
+        let preciseSession = LectureSession(
+            sessionID: UUID(uuidString: "B1C2D3E4-F5A6-4789-BCDE-1234567890AB")!,
+            lectureStartedAt: preciseStartedAt,
+            lectureTimeZone: TimeZone(identifier: "Asia/Seoul")!
+        )
+        let context = try makeContext(times: [preciseCreatedAt])
+
+        _ = try await context.repository.insert(lectureSession: preciseSession)
+        let fetched = try await context.repository.session(sessionID: preciseSession.sessionID)
+
+        #expect(fetched.lectureSession == preciseSession)
+        #expect(fetched.lectureSession.lectureStartedAt == preciseStartedAt)
+        #expect(fetched.createdAt == preciseCreatedAt)
+        #expect(fetched.updatedAt == preciseCreatedAt)
+    }
+
     @Test("존재하지 않는 session lookup은 typed not-found를 반환한다")
     func missingSessionIsTypedNotFound() async throws {
         let context = try makeContext(times: [createdAt])

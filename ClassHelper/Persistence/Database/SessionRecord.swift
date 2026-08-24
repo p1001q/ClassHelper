@@ -171,16 +171,31 @@ nonisolated struct SessionRecord: Codable, FetchableRecord, PersistableRecord, E
     }
 
     static func encode(_ date: Date) -> String {
-        formatter().string(from: date)
+        var wholeSeconds = floor(date.timeIntervalSince1970)
+        var fractionalNanoseconds = Int(
+            ((date.timeIntervalSince1970 - wholeSeconds) * 1_000_000_000).rounded()
+        )
+        if fractionalNanoseconds == 1_000_000_000 {
+            wholeSeconds += 1
+            fractionalNanoseconds = 0
+        }
+
+        let wholeSecond = Date(timeIntervalSince1970: wholeSeconds)
+        let base = wholeSecondFormatter().string(from: wholeSecond)
+        return String(base.dropLast())
+            + String(format: ".%09dZ", fractionalNanoseconds)
     }
 
     static func decode(_ value: String) -> Date? {
-        formatter().date(from: value)
+        try? Date(
+            value,
+            strategy: Date.ISO8601FormatStyle(includingFractionalSeconds: true)
+        )
     }
 
-    private static func formatter() -> ISO8601DateFormatter {
+    private static func wholeSecondFormatter() -> ISO8601DateFormatter {
         let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        formatter.formatOptions = [.withInternetDateTime]
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         return formatter
     }
