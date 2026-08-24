@@ -22,6 +22,8 @@ struct AppDatabaseTests {
         let reopened = try AppDatabase.open(at: temporary.databaseURL)
         #expect(try reopened.pool.read { try migrator.appliedIdentifiers($0) } == [AppDatabaseMigrator.v1SessionsIdentifier])
         #expect(try reopened.pool.read { try Int.fetchOne($0, sql: "SELECT COUNT(*) FROM sessions") } == 0)
+        try reopened.pool.close()
+        try first.pool.close()
     }
 
     @Test("WAL, foreign keys와 integrity check가 실제 connection에서 활성화된다")
@@ -288,6 +290,10 @@ private final class TestDatabaseContext {
     init(temporary: TemporaryDatabase, database: AppDatabase) {
         self.temporary = temporary
         self.database = database
+    }
+
+    deinit {
+        try? database.pool.close()
     }
 }
 
