@@ -67,6 +67,55 @@ struct SessionRepositoryTests {
         #expect(fetched.updatedAt == preciseCreatedAt)
     }
 
+    @Test("기존 v1 millisecond ISO 8601 row를 호환해서 읽는다")
+    func readsLegacyMillisecondTimestampRow() async throws {
+        let legacyStartedAt = Date(timeIntervalSince1970: 1_785_947_400.125)
+        let legacyTimestamp = Date(timeIntervalSince1970: 1_786_100_000.25)
+        let legacySession = LectureSession(
+            sessionID: UUID(uuidString: "C1D2E3F4-A5B6-4789-CDEF-2345678901AB")!,
+            lectureStartedAt: legacyStartedAt,
+            lectureTimeZone: TimeZone(identifier: "Asia/Seoul")!
+        )
+        let context = try makeContext(times: [createdAt])
+
+        try await context.database.pool.write { db in
+            try db.execute(
+                sql: """
+                    INSERT INTO sessions (
+                        session_id, lecture_started_at, lecture_timezone, lecture_local_date,
+                        lecture_local_year, lecture_local_month, lecture_local_day,
+                        lecture_local_hour, lecture_local_minute, recording_state,
+                        local_processing_state, publication_state, discard_requested,
+                        created_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                arguments: [
+                    legacySession.sessionID,
+                    "2026-08-05T16:30:00.125Z",
+                    legacySession.lectureTimezone,
+                    legacySession.lectureLocalDate,
+                    legacySession.lectureLocalYear,
+                    legacySession.lectureLocalMonth,
+                    legacySession.lectureLocalDay,
+                    legacySession.lectureLocalHour,
+                    legacySession.lectureLocalMinute,
+                    RecordingState.ready.rawValue,
+                    LocalProcessingState.capturing.rawValue,
+                    PublicationState.notApplicable.rawValue,
+                    false,
+                    "2026-08-07T10:53:20.250Z",
+                    "2026-08-07T10:53:20.250Z",
+                ]
+            )
+        }
+
+        let fetched = try await context.repository.session(sessionID: legacySession.sessionID)
+
+        #expect(fetched.lectureSession == legacySession)
+        #expect(fetched.createdAt == legacyTimestamp)
+        #expect(fetched.updatedAt == legacyTimestamp)
+    }
+
     @Test("존재하지 않는 session lookup은 typed not-found를 반환한다")
     func missingSessionIsTypedNotFound() async throws {
         let context = try makeContext(times: [createdAt])
